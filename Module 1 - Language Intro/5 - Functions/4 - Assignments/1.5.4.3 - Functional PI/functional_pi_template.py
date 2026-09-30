@@ -10,9 +10,26 @@ def my_pi(target_error):
     """
 
     ### YOUR CODE HERE ###
+    a = 1
+    b = 1 / math.sqrt(2)
+    t = 1 / 4
+    p = 1
+
+    while True:
+        a_new = (a + b) / 2
+        b_new = math.sqrt(a * b)
+        t_new = t - p * (a - a_new) ** 2
+        p_new = 2 * p
+
+        a, b, t, p = a_new, b_new, t_new, p_new
+        pi_junior = (a + b) ** 2 / (4 * t)
+
+        if abs(pi_junior - math.pi) < target_error:
+            break
+    
 
     # change this so an actual value is returned
-    return 0
+    return pi_junior
 
 
 
