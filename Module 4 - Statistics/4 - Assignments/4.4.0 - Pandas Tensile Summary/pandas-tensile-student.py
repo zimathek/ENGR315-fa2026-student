@@ -26,8 +26,10 @@ def load_tensile_data(_path: str):
     """
 
     # YOUR CODE HERE #
+    df = pd.read_csv(_path)
 
-    return None
+
+    return df
 
 
 def select_material(_df, _material: str):
@@ -39,8 +41,10 @@ def select_material(_df, _material: str):
     """
 
     # YOUR CODE HERE #
+    material_df = _df[_df['Material_Type'] == _material]
 
-    return None
+
+    return material_df
 
 
 def select_strong(_df, _material: str, _min_yield: float):
@@ -54,8 +58,9 @@ def select_strong(_df, _material: str, _min_yield: float):
     """
 
     # YOUR CODE HERE #
+    strong_df = _df[(_df['Material_Type'] == _material) & (_df['Yield_Strength'] > _min_yield)]
 
-    return None
+    return strong_df
 
 
 def get_values(_df, _material: str, _column: str):
@@ -68,8 +73,10 @@ def get_values(_df, _material: str, _column: str):
     """
 
     # YOUR CODE HERE #
+    material_df = _df[_df['Material_Type'] == _material]
+    values = material_df[_column].values
 
-    return None
+    return values
 
 
 def material_statistics(_df, _material: str, _column: str):
@@ -83,8 +90,12 @@ def material_statistics(_df, _material: str, _column: str):
     """
 
     # YOUR CODE HERE #
+    material_df = _df[_df['Material_Type'] == _material]
+    mean = material_df[_column].mean()
+    std_dev = material_df[_column].std()
 
-    return None
+
+    return (mean, std_dev)
 
 
 def summary_table(_df, _columns: list):
@@ -99,8 +110,15 @@ def summary_table(_df, _columns: list):
     """
 
     # YOUR CODE HERE #
+    summary = {}
+    for material in _df['Material_Type'].unique():
+        summary[material] = {}
+        for column in _columns:
+            mean = _df[_df['Material_Type'] == material][column].mean()
+            std_dev = _df[_df['Material_Type'] == material][column].std()
+            summary[material][column] = (mean, std_dev) 
 
-    return None
+    return summary
 
 
 if __name__ == '__main__':
@@ -112,7 +130,7 @@ if __name__ == '__main__':
     #   PMMA       3.09 +/- 0.2           49.41 +/- 3.04
     path_to_file = '../../../data/tensile/tensile_data.csv'
 
-    data = load_tensile_data(path_to_file)
+    data = load_tensile_data(r'C:\Users\ekzim\OneDrive\Documents\GitHub\ENGR315-fa2026-student\data\tensile\tensile_data.csv')
     if data is None:
         print('load_tensile_data() is not complete yet')
     else:
